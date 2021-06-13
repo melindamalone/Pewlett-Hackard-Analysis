@@ -108,7 +108,7 @@ WHERE de.to_date = ('9999-01-01');
 
 -- Employee count by department number
 SELECT COUNT(ce.emp_no), de.dept_no
-INTO employee_count_by_dept
+--INTO employee_count_by_dept
 FROM current_emp AS ce
 LEFT JOIN dept_employees AS de
 ON ce.emp_no = de.emp_no
@@ -163,33 +163,48 @@ INNER JOIN departments AS d
 ON (de.dept_no = d.dept_no);
 
 -- Create new table for retiring employees in Sales department.
-SELECT e.emp_no, 
-	e.first_name, 
-	e.last_name,
-	d.dept_name
-INTO sales_retirement_info
-FROM employees AS e
-INNER JOIN dept_employees AS de
-ON (e.emp_no = de.emp_no)
-INNER JOIN departments AS d
-ON (de.dept_no = d.dept_no)
-WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
-AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31')
-AND (d.dept_name = 'Sales');
-
--- Create new table for retiring employees in Sales department.
-SELECT *
-FROM departments
-WHERE dept_name IN ('Sales','Development')
-SELECT e.emp_no, 
-	e.first_name, 
-	e.last_name,
+SELECT ce.emp_no, 
+	ce.first_name, 
+	ce.last_name,
 	d.dept_name
 --INTO sales_retirement_info
-FROM employees AS e
+FROM current_emp AS ce
 INNER JOIN dept_employees AS de
-ON (e.emp_no = de.emp_no)
+ON (ce.emp_no = de.emp_no)
 INNER JOIN departments AS d
 ON (de.dept_no = d.dept_no)
+--WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+--AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31')
+WHERE (d.dept_name = 'Sales');
+
+SELECT COUNT (*) FROM sales_retirement_info;
+
+-- Create new table for Retirement Titles
+SELECT e.emp_no, 
+	e.first_name, 
+	e.last_name,
+	t.title,
+	t.from_date,
+	t.to_date
+INTO retirement_titles
+FROM titles AS t
+LEFT JOIN employees AS e
+ON e.emp_no = t.emp_no
 WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
-AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+ORDER BY e.emp_no;
+
+-- Use Dictinct with Orderby to remove duplicate rows
+SELECT DISTINCT ON (rt.emp_no) rt.emp_no,
+rt.first_name,
+rt.last_name,
+rt.title
+INTO unique_titles
+FROM retirement_titles AS rt
+ORDER BY rt.emp_no, rt.to_date DESC;
+
+--Create retiring titles table
+SELECT COUNT(ut.emp_no), ut.title
+INTO retiring_titles
+FROM unique_titles AS ut
+GROUP BY ut.title
+ORDER BY COUNT DESC;
