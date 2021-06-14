@@ -237,12 +237,17 @@ SELECT DISTINCT ON (e.emp_no) e.emp_no,
 	de.from_date,
 	de.to_date,
 	t.title
---INTO new_table
+--INTO temp_all_employees
 FROM employees AS e
 INNER JOIN dept_employees AS de
 ON (e.emp_no = de.emp_no)
 INNER JOIN titles AS t
 ON (e.emp_no = t.emp_no)
 WHERE (de.to_date = '9999-01-01')
---AND (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 ORDER BY e.emp_no;
+
+--Create temp_all_employees by title
+SELECT COUNT(tae.emp_no), tae.title
+FROM temp_all_employees AS tae
+GROUP BY tae.title
+ORDER BY COUNT DESC;
