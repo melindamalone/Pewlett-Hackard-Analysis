@@ -204,7 +204,7 @@ ORDER BY rt.emp_no, rt.to_date DESC;
 
 --Create retiring titles table
 SELECT COUNT(ut.emp_no), ut.title
-INTO retiring_titles
+--INTO retiring_titles
 FROM unique_titles AS ut
 GROUP BY ut.title
 ORDER BY COUNT DESC;
@@ -217,7 +217,7 @@ SELECT DISTINCT ON (e.emp_no) e.emp_no,
 	de.from_date,
 	de.to_date,
 	t.title
-INTO mentorship_eligibility
+--INTO mentorship_eligibility
 FROM employees AS e
 INNER JOIN dept_employees AS de
 ON (e.emp_no = de.emp_no)
@@ -225,4 +225,24 @@ INNER JOIN titles AS t
 ON (e.emp_no = t.emp_no)
 WHERE (de.to_date = '9999-01-01')
 AND (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
+ORDER BY e.emp_no;
+
+SELECT * FROM employees;
+
+-- Create new table for all employees
+SELECT DISTINCT ON (e.emp_no) e.emp_no,
+	e.first_name, 
+	e.last_name,
+	e.birth_date,
+	de.from_date,
+	de.to_date,
+	t.title
+--INTO new_table
+FROM employees AS e
+INNER JOIN dept_employees AS de
+ON (e.emp_no = de.emp_no)
+INNER JOIN titles AS t
+ON (e.emp_no = t.emp_no)
+WHERE (de.to_date = '9999-01-01')
+--AND (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 ORDER BY e.emp_no;
