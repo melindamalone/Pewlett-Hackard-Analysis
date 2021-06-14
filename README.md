@@ -20,4 +20,4 @@
 
 ##### In summary, Pewlett Hackard has more than 220,000 active employees and 90,398 of those active employees are eligible for retirement and these positions will need to be filled.  There are enough qualified retirement-ready employees to mentor employees if calculating how many employees were born between January 1, 1965 and December 31, 1965 as there are 1,549 employees born between this timeframe which would be eligible for the mentorship program. However if the mentorship program was offered company-wide without sufficient parameters to who is eligible to participate, there may not be enough retirement-ready employees to mentor all growth minded employees. Therefore Pewlett Hackard's mentorship program could be eligible to employees born between January 1, 1965 and December 31, 1965, and available to others outside of these birth dates if meeting well-defined parameters.
 
-<img src="Mentorship_Eligibility.PNG" width="300">
+<img src="Mentorship_Eligibility.PNG" width="400">
